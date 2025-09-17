@@ -24,10 +24,3 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
-.hero-bg-img {
-  background-image: url('/img/home01.jpg'); /* path จาก public */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}

@@ -1,103 +1,300 @@
-import Image from "next/image";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+  // โหลดสถานะล็อกอินจาก localStorage เมื่อโหลดหน้า
+  useEffect(() => {
+    const loginStatus = localStorage.getItem("isLoggedIn");
+    if (loginStatus === "true") setIsLoggedIn(true);
+  }, []);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", "true");
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
+  };
+
+  return (
+    <div className="bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-md rounded-b-lg p-4 sticky top-0 z-50">
+        <div className="container mx-auto flex justify-between items-center">
+          {/* Logo */}
+          <div className="text-xl font-bold flex items-center text-green-600">
+            <img src="/logo.png" alt="Logo" className="h-8" />
+          </div>
+
+          {/* Hamburger icon (mobile only) */}
+          <div className="md:hidden">
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="text-2xl">
+              {mobileOpen ? "✕" : "☰"}
+            </button>
+          </div>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex space-x-6 text-gray-900 font-medium">
+            <button onClick={() => router.push("/")} className="hover:text-green-600 transition">หน้าแรก</button>
+            <button onClick={() => router.push("/chat-page")} className="hover:text-green-600 transition">แชทบอท</button>
+            <button onClick={() => router.push("/articles")} className="hover:text-green-600 transition">บทความรู้</button>
+            <button onClick={() => router.push("/calculator")} className="hover:text-green-600 transition">คำนวณภาษี</button>
+            <button onClick={() => router.push("/faq")} className="hover:text-green-600 transition">FAQ</button>
+            <button onClick={() => router.push("/contact")} className="hover:text-green-600 transition">ติดต่อเรา</button>
+          </nav>
+
+          {/* Auth buttons - Desktop */}
+          <div className="hidden md:flex items-center space-x-4">
+            {!isLoggedIn ? (
+              <>
+                <button
+                  onClick={() => {
+                    handleLogin(); // จำลอง login
+                    router.push("/login-page");
+                  }}
+                  className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => router.push("/register-page")}
+                  className="px-4 py-2 bg-green-600 text-white rounded-full font-medium hover:bg-green-700 transition"
+                >
+                  Register
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => router.push("/profile")}
+                   className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
+                >
+                  โปรไฟล์
+                </button>
+                <button
+                  onClick={handleLogout}
+                   className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
+                >
+                  ออกจากระบบ
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileOpen && (
+          <div className="md:hidden mt-4 space-y-3">
+            <nav className="flex flex-col space-y-2 text-gray-900 font-medium px-4">
+              <button onClick={() => router.push("/")}>หน้าแรก</button>
+              <button onClick={() => router.push("/chat-page")}>แชทบอท</button>
+              <button onClick={() => router.push("/articles")}>บทความรู้</button>
+              <button onClick={() => router.push("/calculator")}>คำนวณภาษี</button>
+              <button onClick={() => router.push("/faq")}>FAQ</button>
+              <button onClick={() => router.push("/contact")}>ติดต่อเรา</button>
+            </nav>
+            <div className="px-4 pt-4 border-t">
+              {!isLoggedIn ? (
+                <>
+                  <button
+                    onClick={() => {
+                      handleLogin(); // จำลอง login
+                      router.push("/login-page");
+                    }}
+                    className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => router.push("/register-page")}
+                   className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
+                  >
+                    Register
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => router.push("/profile")}
+                    className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
+                  >
+                    โปรไฟล์
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                   className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
+                  >
+                    ออกจากระบบ
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* ที่เหลือของหน้า Home ให้ต่อจากตรงนี้ได้เลย */}
+
+      {/* Hero */}
+      <section
+        className="relative text-white py-20 md:py-32 text-center rounded-b-2xl overflow-hidden"
+        style={{
+          backgroundImage: "url('/img/home01.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b "></div>
+        <div className="relative z-10 container mx-auto px-4 max-w-4xl">
+          <h1 className="text-black text-xl md:text-5xl font-extrabold leading-tight mb-0 drop-shadow-lg">
+          แทบทุกคนผู้ช่วยภาษีที่ทำให้การคำนวณง่ายรวดเร็วและไม่ซับซ้อน
+          </h1>
+          <p className="text-black text-lg md:text-1xl mb-10 opacity-90 font-medium drop-shadow">
+            ไม่ต้องกังวลเรื่องการยื่นภาษีอีกต่อไป ระบบของเราช่วยคำนวณและแนะนำสิทธิประโยชน์ที่คุณควรได้รับแบบอัตโนมัติ
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <button className="text-black px-10 bg-white py-4 bg-green-c  rounded-full font-bold shadow-xl hover:bg-teal-600 transition-colors text-lg">
+              เริ่มใช้งาน
+            </button>
+            <button className="text-black px-10 bg-white py-4 bg-green-c  rounded-full font-bold shadow-xl hover:bg-teal-600 transition-colors text-lg">
+              เรียนรู้เพิ่มเติม
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section className="bg-white py-16 md:py-24 text-center rounded-b-2xl">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-green-c">ภาษีควรเป็นเรื่องง่าย</h2>
+          <p className="text-gray-800 text-lg mb-4">
+            C-Advisor เกิดจากความปรารถนาที่จะปฏิรูปกฎหมายภาษี...
+          </p>
+          <a href="#" className="mt-2 inline-block text-green-c font-semibold hover:underline transition">
+            ความเป็นมาของ C-Advisor →
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Features */}
+      <section className="bg-[#d7f9f3] py-16 md:py-24 rounded-b-2xl">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* Card 1 */}
+          <div
+            className="rounded-2xl shadow-xl p-8 flex items-center min-h-[260px] relative overflow-hidden"
+            style={{
+              backgroundImage: "url('/img/box1.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 rounded-2xl z-0"></div>
+            <div className="relative z-10 flex-1 text-center md:text-left text-white drop-shadow-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3">ที่ปรึกษาการเงินส่วนตัวของคุณ</h3>
+              <p className="mb-6 text-base md:text-lg font-medium">
+                C-Advisor ไม่เพียงแค่เป็นแอปพลิเคชันที่...
+              </p>
+              <button className="bg-green-c text-white px-8 py-3 rounded-full font-bold hover:bg-teal-600 transition-colors shadow-lg">
+                เริ่มต้นใช้งาน
+              </button>
+            </div>
+          </div>
+          {/* Card 2 */}
+          <div
+            className="rounded-2xl shadow-xl p-8 flex items-center min-h-[260px] relative overflow-hidden"
+            style={{
+              backgroundImage: "url('/img/box2.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 rounded-2xl z-0"></div>
+            <div className="relative z-10 flex-1 text-center md:text-left text-white drop-shadow-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3">คำนวณภาษีอัตโนมัติและรวดเร็ว</h3>
+              <p className="mb-6 text-base md:text-lg font-medium">
+                คำนวณและวางแผนภาษีได้อย่างแม่นยำ
+              </p>
+              <button
+                onClick={() => router.push("/next-page")}
+                className="bg-green-c text-white px-8 py-3 rounded-full font-bold hover:bg-teal-600 transition-colors shadow-lg"
+              >
+                คำนวณ
+              </button>
+            </div>
+          </div>
+          {/* Card 3 */}
+          <div
+            className="rounded-2xl shadow-xl p-8 flex items-center min-h-[260px] relative overflow-hidden"
+            style={{
+              backgroundImage: "url('/img/box3.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 rounded-2xl z-0"></div>
+            <div className="relative z-10 flex-1 text-center md:text-left text-white drop-shadow-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3">ข่าวภาษี</h3>
+              <p className="mb-6 text-base md:text-lg font-medium">
+                ติดตามข่าวสารและความเคลื่อนไหวด้านภาษี...
+              </p>
+              <button className="bg-green-c text-white px-8 py-3 rounded-full font-bold hover:bg-teal-600 transition-colors shadow-lg">
+                อ่านข่าว
+              </button>
+            </div>
+          </div>
+          {/* Card 4 */}
+          <div
+            className="rounded-2xl shadow-xl p-8 flex items-center min-h-[260px] relative overflow-hidden"
+            style={{
+              backgroundImage: "url('/img/box4.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 rounded-2xl z-0"></div>
+            <div className="relative z-10 flex-1 text-center md:text-left text-white drop-shadow-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-3">ความรู้ภาษี</h3>
+              <p className="mb-6 text-base md:text-lg font-medium">
+                แหล่งรวมบทความความรู้เกี่ยวกับภาษี...
+              </p>
+              <button className="bg-green-c text-white px-8 py-3 rounded-full font-bold hover:bg-teal-600 transition-colors shadow-lg">
+                เริ่มอ่าน
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-green-50 text-green-800 py-8 rounded-t-2xl mt-10">
+        <div className="container mx-auto px-4 flex justify-between items-center max-w-7xl">
+          <div className="text-2xl font-bold flex items-center text-green-600">
+            <span className="mr-1">C</span>
+            <span>Advisor</span>
+          </div>
+          <p className="text-green-600 text-sm">© 2025 Tax Advisor WebApp. All rights reserved.</p>
+        </div>
       </footer>
+
+      {/* Hero Background Style */}
+      <style jsx>{`
+        .hero-bg-img {
+          background: url('/home01.jpg') center center / cover no-repeat;
+          position: relative;
+        }
+      `}</style>
     </div>
   );
 }
