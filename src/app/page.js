@@ -46,7 +46,6 @@ export default function Home() {
             <button onClick={() => router.push("/chat-page")} className="hover:text-green-600 transition">แชทบอท</button>
             <button onClick={() => router.push("/articles")} className="hover:text-green-600 transition">บทความรู้</button>
             <button onClick={() => router.push("/calculator")} className="hover:text-green-600 transition">คำนวณภาษี</button>
-            <button onClick={() => router.push("/faq")} className="hover:text-green-600 transition">FAQ</button>
             <button onClick={() => router.push("/contact")} className="hover:text-green-600 transition">ติดต่อเรา</button>
           </nav>
 
@@ -97,7 +96,6 @@ export default function Home() {
               <button onClick={() => router.push("/chat-page")}>แชทบอท</button>
               <button onClick={() => router.push("/articles")}>บทความรู้</button>
               <button onClick={() => router.push("/calculator")}>คำนวณภาษี</button>
-              <button onClick={() => router.push("/faq")}>FAQ</button>
               <button onClick={() => router.push("/contact")}>ติดต่อเรา</button>
             </nav>
             <div className="px-4 pt-4 border-t">

@@ -100,8 +100,7 @@ const calculateTaxSteps = (income) => {
             <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">แชทบอท</button>
             <button onClick={() => router.push("/articles")} className="hover:text-green-c">บทความรู้</button>
             <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">คำนวณภาษี</button>
-            <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">FAQ</button>
-            <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">ติดต่อเรา</button>
+            <button onClick={() => router.push("/contact")} className="hover:text-green-c">ติดต่อเรา</button>
           </nav>
 
           {/* Auth Buttons (desktop) */}
@@ -124,10 +123,9 @@ const calculateTaxSteps = (income) => {
             <nav className="flex flex-col space-y-2 text-gray-900 font-medium">
               <button onClick={() => router.push("/")} className="hover:text-green-c">หน้าแรก</button>
               <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">แชทบอท</button>
-              <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">บทความรู้</button>
-              <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">คำนวณภาษี</button>
-              <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">FAQ</button>
-              <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">ติดต่อเรา</button>
+              <button onClick={() => router.push("articles")} className="hover:text-green-c">บทความรู้</button>
+              <button onClick={() => router.push("/calculator")} className="hover:text-green-c">คำนวณภาษี</button>
+              <button onClick={() => router.push("/contact")} className="hover:text-green-c">ติดต่อเรา</button>
             </nav>
             <div className="flex flex-col space-y-2 pt-2 border-t border-green-100">
               <button
