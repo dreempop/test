@@ -42,68 +42,7 @@ export default function ArticlesPage() {
         backgroundPosition: "center",
       }}
     >
-{/* Header */}
-      <header className="bg-white shadow-md rounded-b-lg p-4 sticky top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold flex items-center text-green-600">
-            <img src="/logo.png" alt="Logo" className="h-8" />
-          </div>
 
-          {/* Hamburger Menu */}
-          <button
-            onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className="md:hidden text-2xl text-green-600"
-          >
-            {mobileNavOpen ? "✕" : "☰"}
-          </button>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-6 text-gray-900 font-medium">
-            <button onClick={() => router.push("/")} className="hover:text-green-c">หน้าแรก</button>
-            <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">แชทบอท</button>
-            <button onClick={() => router.push("/articles")} className="hover:text-green-c">บทความรู้</button>
-            <button onClick={() => router.push("/calculator")} className="hover:text-green-c">คำนวณภาษี</button>
-            <button onClick={() => router.push("/contact")} className="hover:text-green-c">ติดต่อเรา</button>
-          </nav>
-
-          {/* Auth Buttons (desktop) */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button
-              onClick={() => router.push("/login-page")}
-              className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100"
-            >
-              Sign In
-            </button>
-            <button className="px-4 py-2 bg-green-600 text-white rounded-full font-medium hover:bg-green-700">
-              Register
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Nav Menu */}
-        {mobileNavOpen && (
-          <div className="md:hidden mt-4 space-y-4 px-4">
-            <nav className="flex flex-col space-y-2 text-gray-900 font-medium">
-              <button onClick={() => router.push("/")} className="hover:text-green-c">หน้าแรก</button>
-              <button onClick={() => router.push("/chat-page")} className="hover:text-green-c">แชทบอท</button>
-              <button onClick={() => router.push("articles")} className="hover:text-green-c">บทความรู้</button>
-              <button onClick={() => router.push("/calculator")} className="hover:text-green-c">คำนวณภาษี</button>
-              <button onClick={() => router.push("/contact")} className="hover:text-green-c">ติดต่อเรา</button>
-            </nav>
-            <div className="flex flex-col space-y-2 pt-2 border-t border-green-100">
-              <button
-                onClick={() => router.push("/login-page")}
-                className="px-4 py-2 text-green-700 rounded-full border border-green-600 hover:bg-green-100"
-              >
-                Sign In
-              </button>
-              <button className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700">
-                Register
-              </button>
-            </div>
-          </div>
-        )}
-      </header>
 
       {/* Main Content */}
       <main className="flex-1 container mx-auto max-w-5xl mt-6 p-6 bg-white rounded-xl shadow-lg">

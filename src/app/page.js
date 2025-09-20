@@ -2,10 +2,14 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+
+
+
+
+
 export default function Home() {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+
 
   // โหลดสถานะล็อกอินจาก localStorage เมื่อโหลดหน้า
   useEffect(() => {
@@ -13,132 +17,12 @@ export default function Home() {
     if (loginStatus === "true") setIsLoggedIn(true);
   }, []);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", "true");
-  };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn");
-  };
 
   return (
     <div className="bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-md rounded-b-lg p-4 sticky top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          {/* Logo */}
-          <div className="text-xl font-bold flex items-center text-green-600">
-            <img src="/logo.png" alt="Logo" className="h-8" />
-          </div>
 
-          {/* Hamburger icon (mobile only) */}
-          <div className="md:hidden">
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="text-2xl">
-              {mobileOpen ? "✕" : "☰"}
-            </button>
-          </div>
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex space-x-6 text-gray-900 font-medium">
-            <button onClick={() => router.push("/")} className="hover:text-green-600 transition">หน้าแรก</button>
-            <button onClick={() => router.push("/chat-page")} className="hover:text-green-600 transition">แชทบอท</button>
-            <button onClick={() => router.push("/articles")} className="hover:text-green-600 transition">บทความรู้</button>
-            <button onClick={() => router.push("/calculator")} className="hover:text-green-600 transition">คำนวณภาษี</button>
-            <button onClick={() => router.push("/contact")} className="hover:text-green-600 transition">ติดต่อเรา</button>
-          </nav>
-
-          {/* Auth buttons - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            {!isLoggedIn ? (
-              <>
-                <button
-                  onClick={() => {
-                    handleLogin(); // จำลอง login
-                    router.push("/login-page");
-                  }}
-                  className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => router.push("/register-page")}
-                  className="px-4 py-2 bg-green-600 text-white rounded-full font-medium hover:bg-green-700 transition"
-                >
-                  Register
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => router.push("/profile")}
-                   className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
-                >
-                  โปรไฟล์
-                </button>
-                <button
-                  onClick={handleLogout}
-                   className="px-4 py-2 text-green-700 rounded-full font-medium border border-green-600 hover:bg-green-100 transition"
-                >
-                  ออกจากระบบ
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <div className="md:hidden mt-4 space-y-3">
-            <nav className="flex flex-col space-y-2 text-gray-900 font-medium px-4">
-              <button onClick={() => router.push("/")}>หน้าแรก</button>
-              <button onClick={() => router.push("/chat-page")}>แชทบอท</button>
-              <button onClick={() => router.push("/articles")}>บทความรู้</button>
-              <button onClick={() => router.push("/calculator")}>คำนวณภาษี</button>
-              <button onClick={() => router.push("/contact")}>ติดต่อเรา</button>
-            </nav>
-            <div className="px-4 pt-4 border-t">
-              {!isLoggedIn ? (
-                <>
-                  <button
-                    onClick={() => {
-                      handleLogin(); // จำลอง login
-                      router.push("/login-page");
-                    }}
-                    className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => router.push("/register-page")}
-                   className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
-                  >
-                    Register
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => router.push("/profile")}
-                    className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
-                  >
-                    โปรไฟล์
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                   className="block w-full text-left px-4 py-2 border border-green-600 text-green-700 rounded-full mb-2"
-                  >
-                    ออกจากระบบ
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-      </header>
-
-      {/* ที่เหลือของหน้า Home ให้ต่อจากตรงนี้ได้เลย */}
 
       {/* Hero */}
       <section
