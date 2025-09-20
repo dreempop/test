@@ -25,22 +25,30 @@ export default function ChatbotPage() {
     scrollToBottom();
   }, [messages, isBotTyping]);
 
-  const handleSend = async (msg = null) => {
-    const userMessage = msg ?? input.trim();
-    if (!userMessage) return;
+const handleSend = async (msg = null) => {
+  const userMessage = msg ?? input.trim();
+  if (!userMessage) return;
 
-    setMessages((prev) => [...prev, { sender: "user", text: userMessage }]);
-    setInput(msg ? msg : "");
-    inputRef.current?.focus();
+  setMessages((prev) => [...prev, { id: Date.now(), sender: "user", text: userMessage }]);
+  setInput("");
+  setIsBotTyping(true);
 
-    setIsBotTyping(true);
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage }),
+    });
+    const data = await res.json();
 
-    setTimeout(() => {
-      const botReply = `ตอบ: ${userMessage}`;
-      setMessages((prev) => [...prev, { sender: "bot", text: botReply }]);
-      setIsBotTyping(false);
-    }, 1200);
-  };
+    setMessages((prev) => [...prev, { id: Date.now(), sender: "bot", text: data.reply }]);
+  } catch (error) {
+    setMessages((prev) => [...prev, { id: Date.now(), sender: "bot", text: "เกิดข้อผิดพลาด ลองใหม่อีกครั้งครับ" }]);
+  } finally {
+    setIsBotTyping(false);
+  }
+};
+
 
   const handleHistoryClick = (historyMsg) => {
     setInput(historyMsg);
